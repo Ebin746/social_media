@@ -34,7 +34,7 @@ export const syncUser = async () => {
     });
 
     return dbUser;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error syncing user:", error.message, error.stack);
     return null;
   }
@@ -54,35 +54,35 @@ export const getUserByClerkid = async (clerkId: string) => {
         }
       }
     });
-  } catch (error: any) {
+  } catch (error) {
     // Handle error appropriately
     console.error(error);
     throw new Error('Failed to fetch user');
-    
+
   }
 };
 
-export const getDbUserId=async ()=>{
+export const getDbUserId = async () => {
   try {
-    const {userId:clerkId}=await auth();
+    const { userId: clerkId } = await auth();
     console.log(clerkId)
-    if(!clerkId){
-       throw new Error("unauthenticated");
-      }
+    if (!clerkId) {
+      return null
+    }
 
-    const user=await getUserByClerkid(clerkId);
-    if(!user) throw new Error("user not found ");
+    const user = await getUserByClerkid(clerkId);
+    if (!user) throw new Error("user not found ");
     return user?.id;
-  } catch (error:any) {
+  } catch (error) {
     console.log(error)
     throw new Error('Failed to fetch user');
   }
 }
 
 
-export const getRandomUser=async ()=>{
+export const getRandomUser = async () => {
 
-   try {
+  try {
     const userId = await getDbUserId();
 
     if (!userId) return [];
@@ -91,7 +91,7 @@ export const getRandomUser=async ()=>{
     const randomUsers = await prisma.user.findMany({
       where: {
         AND: [
-             {NOT:{id:userId}},
+          { NOT: { id: userId } },
           {
             NOT: {
               followers: {
@@ -124,50 +124,51 @@ export const getRandomUser=async ()=>{
   }
 }
 
-export const toggleFollow=async (toggleUserId:string)=>{
+export const toggleFollow = async (toggleUserId: string) => {
   try {
-    const userId=await getDbUserId()
-    if(userId===toggleUserId) throw new Error("you can not follow your self");
-    const existingUser=await prisma.follows.findUnique({
-      where:{
-        followerId_followingId:{
-          followerId:userId,
-          followingId:toggleUserId
+    const userId = await getDbUserId()
+    if (!userId) return { success: false, message: "can not follow , some error occured" }
+    if (userId === toggleUserId) throw new Error("you can not follow your self");
+    const existingUser = await prisma.follows.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: userId,
+          followingId: toggleUserId
         }
       }
     })
-    if(existingUser){ 
+    if (existingUser) {
       await prisma.follows.delete({
-        where:{
-          followerId_followingId:{
-            followerId:userId,
-            followingId:toggleUserId
+        where: {
+          followerId_followingId: {
+            followerId: userId,
+            followingId: toggleUserId
           }
         }
       })
-    }else{
+    } else {
       await prisma.$transaction([
-         prisma.follows.create({
-          data:{
-            followerId:userId,
-            followingId:toggleUserId
+        prisma.follows.create({
+          data: {
+            followerId: userId,
+            followingId: toggleUserId
           }
         }),
 
-      prisma.notification.create({
-        data:{
-            type:"FOLLOW",
-            userId:toggleUserId,
-            creatorId:userId,
+        prisma.notification.create({
+          data: {
+            type: "FOLLOW",
+            userId: toggleUserId,
+            creatorId: userId,
 
-        }  
+          }
         })
       ])
     }
     revalidatePath("/")
-    return {success:true};
+    return { success: true };
   } catch (error) {
     console.log(error)
-    return {success:false,message:"can not follow , some error occured"}
+    return { success: false, message: "can not follow , some error occured" }
   }
 }
