@@ -4,7 +4,7 @@ import { useState } from "react"
 import { formatDistanceToNow } from "date-fns"
 import { SignInButton, useUser } from "@clerk/nextjs"
 import { getPosts } from "@/actions/post.action"
-import { toggleLikes, deletePost,  createComment } from "@/actions/post.action"
+import { toggleLikes, deletePost, createComment } from "@/actions/post.action"
 import toast from "react-hot-toast"
 import { Card, CardContent } from "./ui/card"
 import { Avatar, AvatarImage } from "./ui/avatar"
@@ -13,6 +13,7 @@ import { DeleteAlertDialog } from "./DeleteAlertDialog"
 import { HeartIcon, LogInIcon, MessageCircleIcon, SendIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { Textarea } from "./ui/textarea"
+import Image from "next/image"
 type Posts = Awaited<ReturnType<typeof getPosts>>
 type Post = Posts[number];
 
@@ -52,7 +53,7 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
     try {
 
       setIsCommenting(true);
-      const result = await  createComment(post.id, newComment);
+      const result = await createComment(post.id, newComment);
       if (result?.success) {
         toast.success("successfully added the comment");
         setNewComment('');
@@ -95,8 +96,8 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
 
               </Avatar>
             </Link>
-             {/* POST HEADER & TEXT CONTENT */}
-             <div className="flex-1 min-w-0">
+            {/* POST HEADER & TEXT CONTENT */}
+            <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 truncate">
                   <Link
@@ -108,37 +109,35 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                     <Link href={`/profile/${post.author.username}`}>@{post.author.username}</Link>
                     <span>•</span>
-                    <span>{formatDistanceToNow(new Date(post.createdAt))} ago</span> 
+                    <span>{formatDistanceToNow(new Date(post.createdAt))} ago</span>
                   </div>
                 </div>
                 {/* Check if current user is the post author */}
 
                 {dbUserId === post?.author.id && (
-                   <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
-                )} 
+                  <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
+                )}
 
               </div>
               <p className="mt-2 text-sm text-foreground break-words">{post.content}</p>
             </div>
 
-              {/* POST IMAGE */}
-          {post.image && (
-            <div className="rounded-lg overflow-hidden">
-              <img src={post.image} alt="Post content" className="w-full h-auto object-cover" />
-            </div>
-          )}
+            {/* POST IMAGE */}
+            {post.image && (
+              <div className="rounded-lg overflow-hidden">
+                <Image src={post.image} alt="Post content" className="w-full h-auto object-cover" />
+              </div>
+            )}
 
 
-            
           </div>
           <div className="flex items-center pt-2 space-x-4">
             {user ? (
               <Button
                 variant="ghost"
                 size="sm"
-                className={`text-muted-foreground gap-2 ${
-                  hasLiked ? "text-red-500 hover:text-red-600" : "hover:text-red-500"
-                }`}
+                className={`text-muted-foreground gap-2 ${hasLiked ? "text-red-500 hover:text-red-600" : "hover:text-red-500"
+                  }`}
                 onClick={handleLike}
               >
                 {hasLiked ? (
@@ -156,7 +155,6 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
                 </Button>
               </SignInButton>
             )}
-
             <Button
               variant="ghost"
               size="sm"
@@ -169,11 +167,8 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
               <span>{post.comments.length}</span>
             </Button>
           </div>
-
-
-
-           {/* COMMENTS SECTION */}
-           {showComments && (
+          {/* COMMENTS SECTION */}
+          {showComments && (
             <div className="space-y-4 pt-4 border-t">
               <div className="space-y-4">
                 {/* DISPLAY COMMENTS */}
@@ -198,7 +193,6 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
                   </div>
                 ))}
               </div>
-
               {user ? (
                 <div className="flex space-x-3">
                   <Avatar className="size-8 flex-shrink-0">
@@ -242,13 +236,9 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
               )}
             </div>
           )}
-          
-          </div>
-       
-
+        </div>
       </CardContent>
     </Card>
   )
 }
-
 export default PostCard
