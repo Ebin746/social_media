@@ -166,3 +166,22 @@ try {
     return { success: false, error: "Failed to update profile" };
 }
 }
+
+export const isFollowing=async(userId:string)=>{
+    const {userId:currentUserId}=await auth();
+    if(!currentUserId) return false;
+try {
+    const follow=await prisma.follows.findUnique({
+        where:{
+            followerId_followingId:{
+                followerId:currentUserId as string,
+                followingId:userId
+            },
+        }
+    })
+    return !!follow;
+} catch (error) {
+    console.error("Error updating profile:", error);
+    return { success: false, error: "Failed to update profile" };
+}
+}
