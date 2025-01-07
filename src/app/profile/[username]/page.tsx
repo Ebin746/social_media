@@ -20,12 +20,13 @@ const page = async ({params}:{params:{username:string}}) => {
     if(!username) return notFound();
   const user=await getProfileByUsername(username)
   if(!user) return;
-    const [posts, likedPosts,isCurrentUserFollowing]=await Promise.all([
+    const [posts, likedPosts, isCurrentUserFollowingResult] = await Promise.all([
         getUserPosts(user?.id),
         getUserLikedPosts(user?.id),
         isFollowing(user.id)
-        
-    ])
+    ]);
+
+    const isCurrentUserFollowing = typeof isCurrentUserFollowingResult === 'boolean' ? isCurrentUserFollowingResult : isCurrentUserFollowingResult.success;
 
   return (
     <ProfilePageClient

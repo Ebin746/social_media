@@ -34,8 +34,12 @@ export const syncUser = async () => {
     });
 
     return dbUser;
-  } catch (error: any) {
-    console.error("Error syncing user:", error.message, error.stack);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error syncing user:", error.message, error.stack);
+    } else {
+      console.error("Error syncing user:", error);
+    }
     return null;
   }
 };
