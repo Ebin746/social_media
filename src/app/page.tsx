@@ -12,7 +12,7 @@ export default async function Home() {
   console.log(posts)
   return (<div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
     <div className="lg:col-span-6">
-      {user ? <CreatePost /> : null}
+      {user ? <CreatePost /> : ".."}
 
       {user ? (
         <div className="space-y-6">
