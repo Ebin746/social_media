@@ -44,7 +44,7 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
       console.log(error);
 
     } finally {
-      setIsLiking(false);
+      setIsLiking(false);//false
     }
   }
 
