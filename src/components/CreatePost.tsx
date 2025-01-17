@@ -8,6 +8,7 @@ import { Textarea } from './ui/textarea'
 import { ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { createPost } from '@/actions/post.action'
 import toast from 'react-hot-toast'
+import ImageUploader from "../components/ImageUploader"
 const CreatePost = () => {
     const { user } = useUser();
     const [content, setContent] = useState("");
@@ -18,6 +19,7 @@ const CreatePost = () => {
  if(!content.trim() && !imageUrl) return;
  setIsPosting(true);
  try {
+  console.log("image url:",imageUrl)
   const result=await createPost(content,imageUrl);
   if(result.success){
     setContent("");
@@ -51,14 +53,15 @@ const CreatePost = () => {
 
                 {(showImageUpload || imageUrl) && (
             <div className="border rounded-lg p-4">
-              {/* <ImageUpload
-                endpoint="postImage"
+              <ImageUploader
+                endpoint="imageUploader"
                 value={imageUrl}
                 onChange={(url) => {
+                  
                   setImageUrl(url);
                   if (!url) setShowImageUpload(false);
                 }}
-              /> */}
+              />
             </div>
           )}
 

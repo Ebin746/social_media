@@ -46,19 +46,19 @@ export const getNotifications = async () => {
     }
 }
 
-export const markNotificationAsRead=async (notificationsArray:string[])=>{
+export const markNotificationAsRead = async (notificationsArray: string[]) => {
     try {
         await prisma.notification.updateMany({
-            where:{
-                id:{
-                    in:notificationsArray
+            where: {
+                id: {
+                    in: notificationsArray
                 }
             },
-            data:{
-                read:true
+            data: {
+                read: true
             }
         })
-        return {success:true}
+        return { success: true }
     } catch (error) {
         console.error("Error marking notifications as read:", error);
         return { success: false };
