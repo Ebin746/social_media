@@ -77,7 +77,7 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
       else {
         throw new Error(result?.error);
       }
-    } catch (error) {
+    } catch {
       toast.success(`error occurred , failed to delete`);
     } finally {
       setIsDeleting(false);
@@ -125,7 +125,7 @@ const PostCard = ({ post, dbUserId }: { post: Post, dbUserId: string | null }) =
             {/* POST IMAGE */}
             {post.image && (
               <div className="rounded-lg overflow-hidden">
-                <img src={post.image} alt="Post content" className="w-full h-auto object-cover" />
+                <Image src={post.image} alt="Post content" className="w-full h-auto object-cover" />
               </div>
             )}
 

@@ -14,7 +14,7 @@ export async function generateMetadata({params}:{params:{username:string}}){
 }
  
 
-const page = async ({params}:{params:{username:string}}) => {
+const Page = async ({params}:{params:{username:string}}) => {
     console.log(params);
     const username=params.username;
     if(!username) return notFound();
@@ -38,4 +38,4 @@ const page = async ({params}:{params:{username:string}}) => {
   )
 }
 
-export default page
+export default Page

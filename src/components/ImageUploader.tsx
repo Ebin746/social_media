@@ -2,7 +2,6 @@
 import React from 'react'
 import { UploadDropzone } from "../lib/uploadthings"
 import { XIcon } from "lucide-react";
-import Image from 'next/image';
 interface imageUploaderProps {
     onChange:(url:string)=>void,
     value:string,
