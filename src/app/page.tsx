@@ -14,14 +14,14 @@ export default async function Home() {
     <div className="lg:col-span-6">
       {user ? <CreatePost /> : ".."}
 
-      {user ? (
+   
         <div className="space-y-6">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} dbUserId={dbUserId} />
           ))}
         </div>
 
-      ) : (<p>please Login ....</p>)}
+      
 
     </div>
 
