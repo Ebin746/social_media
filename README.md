@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Social Media Platform
 
-## Getting Started
+## Overview
+A modern social media platform built using Next.js and Prisma, designed for seamless post and image sharing. It features authentication, media uploads, and a sleek, user-friendly interface.
 
-First, run the development server:
+## GitHub Repository
+🔗 [Social Media Platform](https://github.com/Ebin746/social_media)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech Stack
+- **Frontend:** Next.js, React, TailwindCSS, Radix UI
+- **Backend:** Prisma (Neon DB)
+- **Authentication:** Clerk
+- **File Uploads:** UploadThing
+- **Other Libraries:** Lucide React, React Hot Toast, Date-fns
+
+## Features
+✔️ User Authentication with Clerk  
+✔️ Create, Edit, and Delete Posts  
+✔️ Image Uploading with UploadThing  
+✔️ Like & Comment System  
+✔️ Modern, Responsive UI  
+✔️ Scalable Database with Prisma & Neon DB  
+
+## Installation & Setup
+
+### Prerequisites
+- Node.js (v18+ recommended)
+- PostgreSQL (Neon DB)
+- Clerk Account for Authentication
+
+### Clone the Repository
+```sh
+git clone https://github.com/Ebin746/social_media.git
+cd social_media
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install Dependencies
+```sh
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
+Create a `.env` file and add:
+```sh
+DATABASE_URL=your_database_url
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+UPLOADTHING_SECRET=your_uploadthing_secret
+UPLOADTHING_APP_ID=your_uploadthing_app_id
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Run the Project
+```sh
+npm run dev
+```
 
-## Learn More
+## Scripts
+- `npm run dev` - Start the development server
+- `npm run build` - Build the app for production
+- `npm run start` - Start the production server
+- `npm run lint` - Run ESLint
+- `npm run postinstall` - Generate Prisma client
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
